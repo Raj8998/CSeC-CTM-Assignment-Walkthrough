@@ -10,7 +10,11 @@
 		1. Same data is being transferred 3 times
 		2. A single data file is broken into 3 segments and sent using TCP packets. (Segmentation is most likely the case here)
 	- There is also one more data packet with apperently less data size.
-- Here now if we check the first packet, the ASCII text form of the data packet shows text like "JFIF", "GIMP 2.10.30", etc., which clearly suggests image file has been sent via this packet. 
+![](./images/01-pcap-analysis.png)
+
+- Here now if we check the first packet, the ASCII text form of the data packet shows text like "JFIF", "GIMP 2.10.30", etc., which clearly suggests image file has been sent via this packet.
+![](./images/02-data.png)
+
 - As we now know this is image file, the type of file can be found out by the first 4-8 bytes of the "Data" part of the packet which contains the data, which are "ffd8ffe000104a..." and if we find these bytes in the list of signatures or "Magic Bytes" [HERE](https://en.wikipedia.org/wiki/List_of_file_signatures#:~:text=This%20is%20a%20list%20of,magic%20numbers%20or%20Magic%20Bytes.), we see that it is of JPG file.
 - Now we need to get the data value which we can get using **"Right Click on Data" -> Copy -> Value** and then store it in a file let's say "hexFile.txt". (Copied text will be of Hex form).
 - Below is the python sctript which can get the hex stream from the file and store raw bytes in image.jpg using binascii library.
